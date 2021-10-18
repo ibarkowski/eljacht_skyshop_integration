@@ -1,1 +1,1 @@
-# eljacht_skyshop_integration
+# Eljacht Optima -> Sky-Shop integration
