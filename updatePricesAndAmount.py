@@ -1,6 +1,8 @@
 #!/bin/python3
 
 from modules.skyshopApiAdapter import skyshopApiAdapter
+from modules.optimaFileAdapter import optimaFileAdapter
+
 import argparse
 
 ap = argparse.ArgumentParser()
@@ -17,8 +19,17 @@ webApi = args["webApi"]
 
 # MAIN SCRIPT
 
+optimaFile = optimaFileAdapter(optimaFile)
 adapter = skyshopApiAdapter(webApi)
 
+optimaProducts = optimaFile.getProductsFromFile()
+
+products = adapter.getAllProducts()
+
+print (products["Ik213"]["prod_id"])
+print (len(products)) 
+
+#print(products["0"]["prod_id"])
 
 #print("Getting list of hosts by tag " + tag)
 #entities = adapter.getHostsByTag(tag)
