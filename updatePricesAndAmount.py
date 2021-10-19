@@ -23,18 +23,28 @@ webApi = args["webApi"]
 
 # MAIN SCRIPT
 
+######################################################
+# STEP 1 - Import products from Optima file
+
 logging.info("Get products from source file: " + optimaFile)
+
 optimaFile = optimaFileAdapter(optimaFile)
 optimaProducts = optimaFile.getProductsFromFile()
 
 logging.debug(str(len(optimaProducts)) + " products imported from Optima file" )
 
-adapter = skyshopApiAdapter(webApi)
+
+######################################################
+# STEP 2 - Get all products to verify from Sky-Shop
 
 logging.info("Get products from Sky-Shop")
-shopProducts = adapter.getAllProducts()
+shopAdapter = skyshopApiAdapter(webApi)
+shopProducts = shopAdapter.getAllProducts()
 logging.debug(str(len(shopProducts)) + " products imported from Sky-Shop")
 
+
+#####################################################################################################
+# STEP 3 - Iterate through shop products, compare to Optima, and generate product list to change
 
 logging.info("Iterating through shop products - START")
 
@@ -46,36 +56,7 @@ for key in shopProducts:
         out_optimaPrice = optimaProducts[key]["prod_price"]
         out_optimaAmount = optimaProducts[key]["prod_amount"]
 
-
-
-
     except KeyError as e:
         logging.exception("Article with symbol " + key + " not found in Optima data", exc_info=False) 
 
-#print (shopProducts["Ik213"]["prod_price"])
-#print (len(products)) 
 
-#print(products["0"]["prod_id"])
-
-#print("Getting list of hosts by tag " + tag)
-#entities = adapter.getHostsByTag(tag)
-#entities = adapter.getOneAgentsByTag(tag)
-
-#hosts = {}
-
-#for ent in entities:
-#     hosts[ent["hostInfo"]["displayName"]] = ent["hostInfo"]["entityId"]
-
-
-#if len(hosts)>0:
-
-#     print ("Found " + str(len(hosts)) + " hosts by tag")
-
-#     for k, v in sorted(hosts.items()):
-
-#        print ("Setting " + k + ", hostId=" + v)
-
-
-      
-#else:
-#     print ("ERROR: Hosts not found")

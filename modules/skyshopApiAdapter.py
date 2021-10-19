@@ -61,16 +61,3 @@ class skyshopApiAdapter:
           else:
                return -1
 
-
-    #########################
-    # GET All Hosts by TAG
-    #########################
-
-    def getHostsByTag(self, tag):
-          
-          resp = self.__apiRequest("GET", "/api/v2/entities?entitySelector=type(\"HOST\"),tag(\"" + tag + "\")&pageSize=999&from=now-1y")
-          if resp.status_code == 200:
-               hosts = resp.json()
-               return hosts["entities"]
-          else:
-               return -1
