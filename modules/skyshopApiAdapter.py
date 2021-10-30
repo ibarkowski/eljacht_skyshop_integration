@@ -50,12 +50,13 @@ class skyshopApiAdapter:
                 prod_price = (prd[str(r)]["prod_price"])
                 prod_amount = (prd[str(r)]["prod_amount"])
 
-                products[prod_symbol] = {}
-                products[prod_symbol]["prod_id"] = prod_id
-                products[prod_symbol]["prod_price"] = prod_price
-                products[prod_symbol]["prod_amount"] = prod_amount
+                if prod_symbol.strip():       # get only products with symbol defined
 
-            
+                    products[prod_symbol] = {}
+                    products[prod_symbol]["prod_id"] = prod_id
+                    products[prod_symbol]["prod_price"] = prod_price
+                    products[prod_symbol]["prod_amount"] = prod_amount
+
             return products
 
           else:

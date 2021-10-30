@@ -48,6 +48,8 @@ logging.debug(str(len(shopProducts)) + " products imported from Sky-Shop")
 
 logging.info("Iterating through shop products - START")
 
+products_to_change = {}
+
 for key in shopProducts:
     try:
         out_id = shopProducts[key]["prod_id"]
@@ -56,7 +58,14 @@ for key in shopProducts:
         out_optimaPrice = optimaProducts[key]["prod_price"]
         out_optimaAmount = optimaProducts[key]["prod_amount"]
 
+        products_to_change[out_id] = out_id
+
+        if out_shopPrice != out_optimaPrice:
+            products_to_change[out_id]["P"] = out_shopPrice
+
+
+
     except KeyError as e:
-        logging.exception("Article with symbol " + key + " not found in Optima data", exc_info=False) 
+        logging.exception("Article with symbol " + key + " not found in Optima input file", exc_info=False) 
 
 
