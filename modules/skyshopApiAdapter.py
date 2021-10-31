@@ -48,9 +48,11 @@ class skyshopApiAdapter:
                 prod_id = (prd[str(r)]["prod_id"])
                 prod_symbol = (prd[str(r)]["prod_symbol"])
                 prod_price = (prd[str(r)]["prod_price"])
+                prod_price = "{:.2f}".format(float(prod_price))   # nolmalize to 2 decimal places
                 prod_amount = (prd[str(r)]["prod_amount"])
+                prod_amount = "{:.0f}".format(float(prod_amount))
 
-                if prod_symbol.strip():       # get only products with symbol defined
+                if prod_symbol.strip():                           # get only products with symbol defined
 
                     products[prod_symbol] = {}
                     products[prod_symbol]["prod_id"] = prod_id
