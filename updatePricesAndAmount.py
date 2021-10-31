@@ -83,6 +83,7 @@ for key in shopProducts:
 logging.info("Iterating through shop products - END")
 
 
+
 #####################################################################################################
 # STEP 4 - Change product prices and amount 
 
