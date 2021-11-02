@@ -1,10 +1,21 @@
 class optimaFileAdapter:
 
+    products = {}
+
     def __init__(self, srcFile=""):
  
         self.env_srcFile = srcFile
+        self.products = self.getProductsFromFile()
            
-            
+
+    ###############################
+    # Get products
+    ###############################   
+
+    def getProducts(self):
+
+        return self.products
+
 
     ###############################
     # Get products from file
@@ -32,3 +43,4 @@ class optimaFileAdapter:
             #print(products)
 
         return products
+

@@ -26,27 +26,27 @@ webApi = args["webApi"]
 ######################################################
 # STEP 1 - Import products from Optima file
 
-logging.info("Get products from source file: " + optimaFile)
+logging.info("STEP 1 - Get products from source file: " + optimaFile)
 
 optimaFile = optimaFileAdapter(optimaFile)
-optimaProducts = optimaFile.getProductsFromFile()
+optimaProducts = optimaFile.getProducts()
 
-logging.debug(str(len(optimaProducts)) + " products imported from Optima file" )
+logging.debug("STEP 1 - " + str(len(optimaProducts)) + " products imported from Optima file" )
 
 
 ######################################################
 # STEP 2 - Get all products to verify from Sky-Shop
 
-logging.info("Get products from Sky-Shop")
+logging.info("STEP 2 - Get products from Sky-Shop")
 shopAdapter = skyshopApiAdapter(webApi)
 shopProducts = shopAdapter.getAllProducts()
-logging.debug(str(len(shopProducts)) + " products imported from Sky-Shop")
+logging.debug("STEP 2 - " + str(len(shopProducts)) + " products imported from Sky-Shop")
 
 
 #####################################################################################################
 # STEP 3 - Iterate through shop products, compare to Optima, and generate product list to change
 
-logging.info("Iterating through shop products - START")
+logging.info("STEP 3 - Iterating through shop products - START")
 
 products_to_change = {}
 
@@ -77,20 +77,102 @@ for key in shopProducts:
             products_to_change[out_id]["A"] = "N"
 
     except KeyError as e:
-        logging.exception("Article with symbol " + key + " not found in Optima input file", exc_info=True) 
+        logging.exception("STEP 3 - Article with symbol " + key + " not found in Optima input file", exc_info=False) 
 
 
-logging.info("Iterating through shop products - END")
+logging.info("STEP 3 - Iterating through shop products - END")
 
+print(products_to_change)
 
 
 #####################################################################################################
 # STEP 4 - Change product prices and amount 
 
-logging.info("Iterating through shop products - START")
+logging.info("STEP 4 - Change product prices and amount")
 
-print (len(products_to_change))
+logging.info("STEP 4 - Prepare payloads for prices, and amount bulk change")
 
+bulkPricesPayload = {}
+bulkAmountPayload = {}
+
+p_count = 0
+a_count = 0
 
 for k, v in products_to_change.items():
-    print(k, v)
+    
+    if v["P"] == "Y":
+        bulkPricesPayload["productID[" + str(p_count) + "]"] = str(k)
+        bulkPricesPayload["price[" + str(p_count) + "]"] = str(v["new_price"])
+        p_count += 1
+    
+    if v["A"] == "Y":
+        bulkAmountPayload["productID[" + str(p_count) + "]"] = str(k)
+        bulkAmountPayload["amount[" + str(p_count) + "]"] = str(v["new_amount"])
+        a_count += 1
+
+
+# proceed with prices change
+
+if len(bulkPricesPayload) > 0:                              
+
+    logging.info("STEP 4 - Execute bulk prices change request")
+    pricesChangeResponse = shopAdapter.bulkProductPricesChange(bulkPricesPayload)
+
+    if pricesChangeResponse.status_code == 200:
+        
+        changed = pricesChangeResponse.json()["changed"]
+        skipped = pricesChangeResponse.json()["skipped"]
+
+        if len(changed) > 0:
+
+            logging.info("STEP 4 - Prices changed for " + str(len(changed)) + " products:")
+
+            for k in changed:
+                logging.info("  ProductID: " + str(k) + "; Product Symbol: " + products_to_change[str(k)]["symbol"] + "; Price " + products_to_change[str(k)]["old_price"] + " >> " + products_to_change[str(k)]["new_price"])
+
+        if len(skipped) > 0:
+    
+            logging.info("STEP 4 - Prices change skipped for " + str(len(skipped)) + " products:")
+
+            for k in skipped:
+                logging.info("  ProductID: " + str(k) + "; Product Symbol: " + products_to_change[str(k)]["symbol"] + "; Price " + products_to_change[str(k)]["old_price"] + " >> " + products_to_change[str(k)]["new_price"])
+
+else:
+    logging.info("STEP 4 - There is no prices to change - skipping")
+
+
+# proceed with amount change
+
+if len(bulkAmountPayload) > 0:                             
+
+    logging.info("STEP 4 - Execute bulk amount change request")
+
+    print(bulkAmountPayload)
+    amountChangeResponse = shopAdapter.bulkProductAmountChange(bulkAmountPayload)
+
+    if amountChangeResponse.status_code == 200:
+        
+        changed = amountChangeResponse.json()["changed"]
+        skipped = amountChangeResponse.json()["skipped"]
+
+        if len(changed) > 0:
+
+            logging.info("STEP 4 - Amount changed for " + str(len(changed)) + " products:")
+
+            for k in changed:
+                logging.info("  ProductID: " + str(k) + "; Product Symbol: " + products_to_change[str(k)]["symbol"] + "; Amount " + products_to_change[str(k)]["old_amount"] + " >> " + products_to_change[str(k)]["new_amount"])
+
+        if len(skipped) > 0:
+    
+            logging.info("STEP 4 - Prices change skipped for " + str(len(skipped)) + " products:")
+
+            for k in skipped:
+                logging.info("  ProductID: " + str(k) + "; Product Symbol: " + products_to_change[str(k)]["symbol"] + "; Amount " + products_to_change[str(k)]["old_amount"] + " >> " + products_to_change[str(k)]["new_amount"])
+
+else:
+    logging.info("STEP 4 - There is no amount to change - skipping")
+
+
+logging.info("Update completed")
+
+

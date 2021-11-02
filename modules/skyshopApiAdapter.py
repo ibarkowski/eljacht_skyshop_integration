@@ -1,4 +1,5 @@
 import requests
+import json
 
 class skyshopApiAdapter:
 
@@ -14,19 +15,20 @@ class skyshopApiAdapter:
           
     def __apiRequest(self, method="GET", uri="", body=""):
 
-          header = {
-               'content-type': 'application/json'
-               }
+          header = {}
+
+          files=[]
 
           url = self.env_uri + uri
 
           if method == 'GET':
-               response = requests.get(url, headers=header, data=body)
+               response = requests.get(url, headers=header, data=body, files=files)
           elif method == 'POST':
-               response = requests.post(url, headers=header, data=body)
+               response = requests.post(url, headers=header, data=body, files=files)
           elif method == 'PUT':
-               response = requests.put(url, headers=header, data=body)
+               response = requests.put(url, headers=header, data=body, files=files)
                
+
           return response
 
 
@@ -64,3 +66,36 @@ class skyshopApiAdapter:
           else:
                return -1
 
+    ###############################
+    # Bulk product prices change
+    ###############################
+
+    def bulkProductPricesChange(self, body={}):
+
+         
+
+         resp = self.__apiRequest("POST", "setProductPrice", body)
+
+
+         if resp.status_code == 200:
+               return resp
+
+         else:
+               return resp
+
+    ###############################
+    # Bulk product amount change
+    ###############################
+
+    def bulkProductAmountChange(self, body={}):
+
+         
+
+         resp = self.__apiRequest("POST", "setProductAmount", body)
+
+
+         if resp.status_code == 200:
+               return resp
+
+         else:
+               return resp
