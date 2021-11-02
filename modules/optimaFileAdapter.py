@@ -31,7 +31,7 @@ class optimaFileAdapter:
 
                 prod_symbol = data[0]
                 prod_price =  data[3].replace(',', '.')                                   # get gross price from the file
-                prod_price = "{:.2f}".format(float(prod_price))                           # nolmalize to 2 decimal places
+                prod_price = "{:.2f}".format(float(prod_price))                           # normalize to 2 decimal places
                 prod_amount = max(int(data[4]) - int(data[5]), 0)                         # liczymy ilość na stanie - ilość zarezerwowana. Jeżeli wyjdzie < 0 to zapisujemy 0
                 prod_amount = "{:.0f}".format(float(prod_amount))
 

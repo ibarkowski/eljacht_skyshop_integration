@@ -50,7 +50,7 @@ class skyshopApiAdapter:
                 prod_id = (prd[str(r)]["prod_id"])
                 prod_symbol = (prd[str(r)]["prod_symbol"])
                 prod_price = (prd[str(r)]["prod_price"])
-                prod_price = "{:.2f}".format(float(prod_price))   # nolmalize to 2 decimal places
+                prod_price = "{:.2f}".format(float(prod_price))   # normalize to 2 decimal places
                 prod_amount = (prd[str(r)]["prod_amount"])
                 prod_amount = "{:.0f}".format(float(prod_amount))
 
