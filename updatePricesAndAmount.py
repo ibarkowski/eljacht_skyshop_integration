@@ -9,8 +9,9 @@ import logging
 
 ap = argparse.ArgumentParser()
 
-ap.add_argument("-o", "--optimaFile", required=True, help="Source file from Optima system")
-ap.add_argument("-a", "--webApi", required=True, help="Sky-Shop Web Api")
+ap.add_argument("-f", "--optimaFile", required=True, help="Source file from Optima system")
+ap.add_argument("-d", "--domain", required=True, help="Sky-Shop domain")
+ap.add_argument("-k", "--webApiKey", required=True, help="Web Api Key")
 
 args = vars(ap.parse_args())
 
@@ -18,7 +19,8 @@ args = vars(ap.parse_args())
 logging.basicConfig(filename=datetime.now().strftime("log\%Y%m%d_%H%M.log") , level=logging.DEBUG)
 
 optimaFile = args["optimaFile"]
-webApi = args["webApi"]
+webApi = args["webApiKey"]
+domain = args["domain"]
 
 
 # MAIN SCRIPT
@@ -38,7 +40,7 @@ logging.debug("STEP 1 - " + str(len(optimaProducts)) + " products imported from 
 # STEP 2 - Get all products to verify from Sky-Shop
 
 logging.info("STEP 2 - Get products from Sky-Shop")
-shopAdapter = skyshopApiAdapter(webApi)
+shopAdapter = skyshopApiAdapter(domain, webApi)
 shopProducts = shopAdapter.getAllProducts()
 logging.debug("STEP 2 - " + str(len(shopProducts)) + " products imported from Sky-Shop")
 

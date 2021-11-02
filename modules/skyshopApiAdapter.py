@@ -3,9 +3,9 @@ import json
 
 class skyshopApiAdapter:
 
-    def __init__(self, webApi=""):
+    def __init__(self, domain="", webApi=""):
  
-        self.env_uri = "https://yd859.mysky-shop.pl/api/?APIkey=" + webApi + "&function="
+        self.env_uri = "https://" + domain + "/api/?APIkey=" + webApi + "&function="
            
             
 
