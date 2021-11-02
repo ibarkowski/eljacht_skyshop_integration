@@ -1,4 +1,4 @@
-#Eljacht Optima -> Sky-Shop integration
+# Eljacht Optima -> Sky-Shop integration
 
 Skrypt wykonuje aktualizację cen, oraz ilości artykułów w podanym sklepie Sky-Shop. Dane źródłowe pobierane są z pliku źródłowego wygenerowanego w systemie Optima, wg poniższej struktury:
 
