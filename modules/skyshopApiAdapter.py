@@ -22,7 +22,7 @@ class skyshopApiAdapter:
           url = self.env_uri + uri
 
           if method == 'GET':
-               response = requests.get(url, headers=header, data=body, files=files)
+               response = requests.get(url, headers=header, params=body, files=files)
           elif method == 'POST':
                response = requests.post(url, headers=header, data=body, files=files)
           elif method == 'PUT':
@@ -33,12 +33,14 @@ class skyshopApiAdapter:
 
 
     #########################
-    # GET All Products
+    # GET All Active Products
     #########################
 
     def getAllProducts(self, offset="0"):
+
+          search = {'search': 'prod_hidden=0'}
           
-          resp = self.__apiRequest("GET", "getProducts&start=" + offset + "&limit=1000")
+          resp = self.__apiRequest("GET", "getProducts&start=" + offset + "&limit=1000", search)
 
           products = {}
 

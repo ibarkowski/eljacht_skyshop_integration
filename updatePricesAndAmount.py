@@ -84,7 +84,6 @@ for key in shopProducts:
 
 logging.info("STEP 3 - Iterating through shop products - END")
 
-print(products_to_change)
 
 
 #####################################################################################################
@@ -113,6 +112,7 @@ for k, v in products_to_change.items():
         a_count += 1
 
 
+
 # proceed with prices change
 
 if len(bulkPricesPayload) > 0:                              
@@ -138,6 +138,8 @@ if len(bulkPricesPayload) > 0:
 
             for k in skipped:
                 logging.info("  ProductID: " + str(k) + "; Product Symbol: " + products_to_change[str(k)]["symbol"] + "; Price " + products_to_change[str(k)]["old_price"] + " >> " + products_to_change[str(k)]["new_price"])
+        else:
+            logging.info("STEP 4 - All prices changed")
 
 else:
     logging.info("STEP 4 - There is no prices to change - skipping")
@@ -166,10 +168,12 @@ if len(bulkAmountPayload) > 0:
 
         if len(skipped) > 0:
     
-            logging.info("STEP 4 - Prices change skipped for " + str(len(skipped)) + " products:")
+            logging.info("STEP 4 - Amount change skipped for " + str(len(skipped)) + " products:")
 
             for k in skipped:
                 logging.info("  ProductID: " + str(k) + "; Product Symbol: " + products_to_change[str(k)]["symbol"] + "; Amount " + products_to_change[str(k)]["old_amount"] + " >> " + products_to_change[str(k)]["new_amount"])
+        else:
+            logging.info("STEP 4 - All amounts changed")
 
 else:
     logging.info("STEP 4 - There is no amount to change - skipping")
