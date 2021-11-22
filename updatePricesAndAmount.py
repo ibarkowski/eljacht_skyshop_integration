@@ -85,7 +85,6 @@ for key in shopProducts:
 logging.info("STEP 3 - Iterating through shop products - END")
 
 
-
 #####################################################################################################
 # STEP 4 - Change product prices and amount 
 
@@ -110,7 +109,6 @@ for k, v in products_to_change.items():
         bulkAmountPayload["productID[" + str(p_count) + "]"] = str(k)
         bulkAmountPayload["amount[" + str(p_count) + "]"] = str(v["new_amount"])
         a_count += 1
-
 
 
 # proceed with prices change
