@@ -24,6 +24,7 @@ Skrypt wykonuje aktualizację cen, oraz ilości artykułów w podanym sklepie Sk
 * Ilość do zmiany pobieramy jako różnicę ilości na stanie i ilości zarezerwowanej
 * Ze sklepu Sky-Shop pobieramy do aktualizacji tylko produkty, które mają uzupełniony symbol produktu z systemu Optima
 * Symbol produktu w Sky-Shop **musi być unikalny**
+* Jeżeli w nazwie symbolu w pliku z Optima znajdują się spacje (z przodu lub z tyłu) to je obcinamy przed porónaniem ze sklepem
 
 ## Wymagania
 
