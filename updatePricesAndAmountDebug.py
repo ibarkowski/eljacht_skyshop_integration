@@ -16,7 +16,7 @@ ap.add_argument("-k", "--webApiKey", required=True, help="Web Api Key")
 args = vars(ap.parse_args())
 
 #Initializa logging
-logging.basicConfig(filename=datetime.now().strftime("log\%Y%m%d_%H%M.debug.log") , level=logging.DEBUG)
+logging.basicConfig(filename=datetime.now().strftime("log_debug\%Y%m%d_%H%M.debug.log") , level=logging.DEBUG)
 
 optimaFile = args["optimaFile"]
 webApi = args["webApiKey"]
@@ -86,3 +86,31 @@ logging.info("STEP 3 - Iterating through shop products - END")
 
 logging.debug("STEP 3 - Array with compared data")
 logging.debug(products_to_change)
+
+#####################################################################################################
+# STEP 4 - Change product prices and amount 
+
+logging.info("STEP 4 - Change product prices and amount")
+
+logging.info("STEP 4 - Prepare payloads for prices, and amount bulk change")
+
+bulkPricesPayload = {}
+bulkAmountPayload = {}
+
+p_count = 0
+a_count = 0
+
+for k, v in products_to_change.items():
+    
+    if v["P"] == "Y":
+        bulkPricesPayload["productID[" + str(p_count) + "]"] = str(k)
+        bulkPricesPayload["price[" + str(p_count) + "]"] = str(v["new_price"])
+        p_count += 1
+    
+    if v["A"] == "Y":
+        bulkAmountPayload["productID[" + str(p_count) + "]"] = str(k)
+        bulkAmountPayload["amount[" + str(p_count) + "]"] = str(v["new_amount"])
+        a_count += 1
+
+logging.debug(bulkPricesPayload)
+logging.debug(bulkAmountPayload)
