@@ -117,6 +117,7 @@ if len(bulkPricesPayload) > 0:
 
     logging.info("STEP 4 - Execute bulk prices change request")
     pricesChangeResponse = shopAdapter.bulkProductPricesChange(bulkPricesPayload)
+    logging.debug(pricesChangeResponse.content)
 
     if pricesChangeResponse.status_code == 200:
         
@@ -149,7 +150,6 @@ if len(bulkAmountPayload) > 0:
 
     logging.info("STEP 4 - Execute bulk amount change request")
 
-    print(bulkAmountPayload)
     amountChangeResponse = shopAdapter.bulkProductAmountChange(bulkAmountPayload)
     logging.debug(amountChangeResponse.content)
 
