@@ -151,6 +151,7 @@ if len(bulkAmountPayload) > 0:
 
     print(bulkAmountPayload)
     amountChangeResponse = shopAdapter.bulkProductAmountChange(bulkAmountPayload)
+    logging.debug(amountChangeResponse.content)
 
     if amountChangeResponse.status_code == 200:
         
@@ -174,6 +175,7 @@ if len(bulkAmountPayload) > 0:
             logging.info("STEP 4 - All amounts changed")
 
 else:
+    
     logging.info("STEP 4 - There is no amount to change - skipping")
 
 
