@@ -106,8 +106,8 @@ for k, v in products_to_change.items():
         p_count += 1
     
     if v["A"] == "Y":
-        bulkAmountPayload["productID[" + str(p_count) + "]"] = str(k)
-        bulkAmountPayload["amount[" + str(p_count) + "]"] = str(v["new_amount"])
+        bulkAmountPayload["productID[" + str(a_count) + "]"] = str(k)
+        bulkAmountPayload["amount[" + str(a_count) + "]"] = str(v["new_amount"])
         a_count += 1
 
 
