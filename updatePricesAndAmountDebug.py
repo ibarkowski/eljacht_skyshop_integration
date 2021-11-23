@@ -105,12 +105,12 @@ for k, v in products_to_change.items():
     if v["P"] == "Y":
         bulkPricesPayload["productID[" + str(p_count) + "]"] = str(k)
         bulkPricesPayload["price[" + str(p_count) + "]"] = str(v["new_price"])
-        p_count += 1
+        p_count = p_count + 1
     
     if v["A"] == "Y":
         bulkAmountPayload["productID[" + str(a_count) + "]"] = str(k)
         bulkAmountPayload["amount[" + str(a_count) + "]"] = str(v["new_amount"])
-        a_count += 1
+        a_count = a_count + 1
 
 logging.debug(bulkPricesPayload)
 logging.debug(bulkAmountPayload)
