@@ -39,7 +39,10 @@ logging.debug("STEP 1 - " + str(len(optimaProducts)) + " products imported from 
 
 logging.info("STEP 2 - Get products from Sky-Shop")
 shopAdapter = skyshopApiAdapter(domain, webApi)
-shopProducts = shopAdapter.getAllProducts()
+
+shopProducts = shopAdapter.getAllProducts(0)
+
+
 logging.debug("STEP 2 - " + str(len(shopProducts)) + " products imported from Sky-Shop")
 
 #####################################################################################################

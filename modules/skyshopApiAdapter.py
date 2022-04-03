@@ -36,37 +36,43 @@ class skyshopApiAdapter:
     # GET All Active Products
     #########################
 
-    def getAllProducts(self, offset="0"):
+    def getAllProducts(self, offset=0):
 
           search = {'search': 'prod_hidden=0'}
-          
-          resp = self.__apiRequest("GET", "getProducts&start=" + offset + "&limit=1000", search)
 
           products = {}
+          return_count = 1000
 
-          if resp.status_code == 200:
-            prd = resp.json()
+          while return_count >= 1000:
 
-            for r in range(len(prd)-1):
+              print ("offset:" + str(offset))
+              resp = self.__apiRequest("GET", "getProducts&start=" + str(offset) + "&limit=1000", search)
 
-                prod_id = (prd[str(r)]["prod_id"])
-                prod_symbol = (prd[str(r)]["prod_symbol"])
-                prod_price = (prd[str(r)]["prod_price"])
-                prod_price = "{:.2f}".format(float(prod_price))   # normalize to 2 decimal places
-                prod_amount = (prd[str(r)]["prod_amount"])
-                prod_amount = "{:.0f}".format(float(prod_amount))
+              if resp.status_code == 200:
+                prd = resp.json()
 
-                if prod_symbol.strip():                           # get only products with symbol defined
+              for r in range(len(prd) - 1):
 
-                    products[prod_symbol] = {}
-                    products[prod_symbol]["prod_id"] = prod_id
-                    products[prod_symbol]["prod_price"] = prod_price
-                    products[prod_symbol]["prod_amount"] = prod_amount
+                    prod_id = (prd[str(r)]["prod_id"])
+                    prod_symbol = (prd[str(r)]["prod_symbol"])
+                    prod_price = (prd[str(r)]["prod_price"])
+                    prod_price = "{:.2f}".format(float(prod_price))   # normalize to 2 decimal places
+                    prod_amount = (prd[str(r)]["prod_amount"])
+                    prod_amount = "{:.0f}".format(float(prod_amount))
 
-            return products
+                    if prod_symbol.strip():                           # get only products with symbol defined
 
-          else:
-               return -1
+                        products[prod_symbol] = {}
+                        products[prod_symbol]["prod_id"] = prod_id
+                        products[prod_symbol]["prod_price"] = prod_price
+                        products[prod_symbol]["prod_amount"] = prod_amount
+
+              return_count = len(prd) - 1
+
+              offset = offset + 1000
+
+          return products
+
 
     ###############################
     # Bulk product prices change
